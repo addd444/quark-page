@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打开资源</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui, sans-serif;}
+        body{
+            background: linear-gradient(180deg, #e8f4ff 0%, #ffffff 100%);
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            padding-top:60px;
+        }
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            font-size:42px;
+            font-weight:bold;
+            color:#222;
+            margin-bottom:32px;
+        }
+        .logo-circle{
+            width:44px;
+            height:44px;
+            border-radius:50%;
+            background:#367bff;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+        }
+        .card{
+            width: min(420px, 90%);
+            background:#fff;
+            border-radius:20px;
+            padding:32px;
+            box-shadow: 0 2px 12px #00000010;
+        }
+        .tip-text{
+            color:#555;
+            font-size:14px;
+            margin:8px 0 24px;
+            line-height:1.6;
+        }
+        .btn-open{
+            display:block;
+            width:100%;
+            padding:14px 0;
+            border:none;
+            border-radius:10px;
+            background:linear-gradient(90deg,#3890ff,#00b4ff);
+            color:white;
+            font-size:18px;
+            font-weight:500;
+            cursor:pointer;
+            margin-bottom:28px;
+        }
+        .label{
+            font-size:15px;
+            color:#333;
+            margin-bottom:10px;
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
+        .label::before{
+            content:"";
+            width:8px;
+            height:8px;
+            border-radius:50%;
+            background:#3698ff;
+        }
+        .input-link{
+            width:100%;
+            padding:12px 10px;
+            border:1px solid #e2e2e2;
+            border-radius:8px;
+            font-size:14px;
+            color:#444;
+        }
+        .btn-copy{
+            margin-top:16px;
+            width:100%;
+            padding:10px;
+            background:#f0f2f6;
+            border:none;
+            border-radius:8px;
+            font-size:15px;
+            cursor:pointer;
+            color:#444;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <span class="logo-circle">Q</span>
+        <span>夸克</span>
+    </div>
+    <div class="card">
+        <div class="label">打开资源</div>
+        <p class="tip-text">点击按钮尝试唤起夸克，若未打开，请复制链接到浏览器自行打开。</p>
+
+        <button class="btn-open" onclick="openQuarkApp()">点击获取资源</button>
+
+        <div class="label">网盘链接</div>
+        <input class="input-link" id="quarkLink" value="https://pan.quark.cn/s/e0e0e7b383b5" readonly>
+        <button class="btn-copy" onclick="copyLink()">复制</button>
+    </div>
+
+<script>
+const targetNetDisk = "https://pan.quark.cn/s/e0e0e7b383b5";
+
+function openQuarkApp(){
+    //尝试唤起夸克App
+    location.href = "quark://web?target=" + encodeURIComponent(targetNetDisk);
+    //1.8秒后，如果唤起失败，直接跳转网盘网页版
+    setTimeout(function(){
+        window.location.href = targetNetDisk;
+    },1800);
+}
+
+function copyLink(){
+    const link = document.getElementById("quarkLink");
+    link.select();
+    navigator.clipboard.writeText(link.value).then(()=>{
+        alert("复制成功");
+    })
+}
+</script>
+</body>
+</html>
